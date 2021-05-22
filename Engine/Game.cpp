@@ -114,6 +114,10 @@ void Game::ComposeFrame()
 		snake.Draw(brd);
 		goal.Draw(brd);
 	}
+	else
+	{
+		gfx.DrawCircle(400, 300, 100, Colors::White);
+	}
 
 
 }

@@ -25,7 +25,7 @@
 #include <assert.h>
 #include <string>
 #include <array>
-
+constexpr float pi = 3.14f;
 // Ignore the intellisense error "cannot open source file" for .shh files.
 // They will be created during the build sequence before the preprocessor runs.
 namespace FramebufferShaders
@@ -238,6 +238,23 @@ Graphics::Graphics( HWNDKey& key )
 	// allocate memory for sysbuffer (16-byte aligned for faster access)
 	pSysBuffer = reinterpret_cast<Color*>( 
 		_aligned_malloc( sizeof( Color ) * Graphics::ScreenWidth * Graphics::ScreenHeight,16u ) );
+}
+
+void Graphics::DrawCircle(int x0, int y0, int r, Color c)
+{
+	const int radius_sqr = r * r;
+	for (int x_loop = x0 - r; x_loop <= x0 + r; x_loop++)
+	{
+		for (int y_loop = y0 - r; y_loop <= y0 + r; y_loop++)
+		{
+			int x_diff = x_loop - x0;
+			int y_diff = y_loop - y0;
+			if (x_diff * x_diff + y_diff * y_diff <= radius_sqr)
+			{
+				PutPixel(x_loop, y_loop, c);
+			}
+		}
+	}
 }
 
 Graphics::~Graphics()
